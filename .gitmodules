@@ -37,3 +37,6 @@
 [submodule ".vim/bundle/vim-sensible"]
 	path = .vim/bundle/vim-sensible
     url = https://github.com/tpope/vim-sensible.git
+[submodule ".vim/bundle/Dockerfile"]
+	path = .vim/bundle/Dockerfile
+	url = https://github.com/ekalinin/Dockerfile.vim.git
