@@ -10,9 +10,7 @@ git submodule update
 # shell setup
 ########################
 
-# RUNZSH=no and CHSH=no allows non-interactive install
 # default shell will need to be changed to zsh outside of this script
-ZSH= RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 curl -L git.io/antigen > ~/.antigen.zsh
 
 mv ~/.zshrc ~/.zshrc.bak
