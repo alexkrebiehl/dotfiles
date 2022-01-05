@@ -33,13 +33,6 @@ ln -s $CURRENT/.vimrc ~/.vimrc
 ########################
 # tmux setup
 ########################
-TPM_DIR="~/.tmux/plugins/tpm"
-if [ ! -d "$TPM_DIR" ]; then
-  echo "$TPM_DIR does not exist"
-  mkdir -p "$TPM_DIR"
-  git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
-fi
-
 mv ~/.tmux.conf ~/.tmux.conf.bak
 ln -s $CURRENT/.tmux.conf ~/.tmux.conf
 
