@@ -46,6 +46,9 @@ ln -s "$DIR/.vimrc" "$INSTALL_DIR/.vimrc"
 mv "$INSTALL_DIR/.tmux.conf" "$INSTALL_DIR/.tmux.conf.bak"
 ln -s "$DIR/.tmux.conf" "$INSTALL_DIR/.tmux.conf"
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+~/.tmux/plugins/tpm/bin/install_plugins
+
 ########################
 # wrap up
 ########################
