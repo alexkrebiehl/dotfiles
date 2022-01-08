@@ -29,7 +29,7 @@ mv "$INSTALL_DIR/.zshrc" "$INSTALL_DIR/.zshrc.bak"
 ln -s "$DIR/.zshrc" "$INSTALL_DIR/.zshrc"
 
 mv "$INSTALL_DIR/.p10k.zsh" "$INSTALL_DIR/.p10k.zsh.bak"
-ln -s "$DIR/.p10k.zsh" "$DIR/.p10k.zsh"
+ln -s "$DIR/.p10k.zsh" "$INSTALL_DIR/.p10k.zsh"
 
 ########################
 # vim setup
