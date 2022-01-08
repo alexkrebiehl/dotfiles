@@ -1,5 +1,9 @@
 #!/bin/bash
 
+INPUT="$1"
+DEFAULT_INSTALL_DIR="$HOME"
+INSTALL_DIR=${INPUT:-"$DEFAULT_INSTALL_DIR"}
+
 CURRENT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $CURRENT
 
@@ -11,28 +15,28 @@ git submodule update
 ########################
 
 # default shell will need to be changed to zsh outside of this script
-curl -L git.io/antigen > ~/.antigen.zsh
+curl -L git.io/antigen > "$INSTALL_DIR/.antigen.zsh"
 
-mv ~/.zshrc ~/.zshrc.bak
-ln -s $CURRENT/.zshrc ~/.zshrc
+mv "$INSTALL_DIR/.zshrc" "$INSTALL_DIR/.zshrc.bak"
+ln -s "$CURRENT/.zshrc" "$INSTALL_DIR/.zshrc"
 
-mv ~/.p10k.zsh ~/.p10k.zsh.bak
-ln -s $CURRENT/.p10k.zsh ~/.p10k.zsh
+mv "$INSTALL_DIR/.p10k.zsh" "$INSTALL_DIR/.p10k.zsh.bak"
+ln -s "$CURRENT/.p10k.zsh" "$INSTALL_DIR/.p10k.zsh"
 
 ########################
 # vim setup
 ########################
-mv ~/.vim ~/.vim.bak
-ln -s $CURRENT/.vim ~/.vim
+mv "$INSTALL_DIR/.vim" "$INSTALL_DIR/.vim.bak"
+ln -s "$CURRENT/.vim" "$INSTALL_DIR/.vim"
 
-mv ~/.vimrc ~/.vimrc.bak
-ln -s $CURRENT/.vimrc ~/.vimrc
+mv "$INSTALL_DIR/.vimrc" "$INSTALL_DIR/.vimrc.bak"
+ln -s "$CURRENT/.vimrc" "$INSTALL_DIR/.vimrc"
 
 ########################
 # tmux setup
 ########################
-mv ~/.tmux.conf ~/.tmux.conf.bak
-ln -s $CURRENT/.tmux.conf ~/.tmux.conf
+mv "$INSTALL_DIR/.tmux.conf" "$INSTALL_DIR/.tmux.conf.bak"
+ln -s "$CURRENT/.tmux.conf" "$INSTALL_DIR/.tmux.conf"
 
 ########################
 # wrap up
