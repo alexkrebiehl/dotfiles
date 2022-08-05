@@ -1,5 +1,19 @@
 #!/bin/bash
 
+check_installed () {
+  if ! command -v $1 &> /dev/null
+  then
+      echo "$1 is not installed"
+      exit
+  fi
+}
+
+check_installed curl
+check_installed zsh
+check_installed tmux
+check_installed vim
+check_installed git
+
 INPUT="$1"
 DEFAULT_INSTALL_DIR="$HOME"
 INSTALL_DIR=${INPUT:-"$DEFAULT_INSTALL_DIR"}
