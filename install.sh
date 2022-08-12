@@ -13,6 +13,7 @@ check_installed zsh
 check_installed tmux
 check_installed vim
 check_installed git
+check_installed fzf
 
 INPUT="$1"
 DEFAULT_INSTALL_DIR="$HOME"
