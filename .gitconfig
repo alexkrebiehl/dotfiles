@@ -1,0 +1,44 @@
+[core]
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only --features="interactive" --diff-so-fancy
+[add.interactive]
+    useBuiltin = false
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[diff]
+    colorMoved = default
+[merge]
+    conflictstyle = diff3
+
+[delta]
+    navigate = true
+    side-by-side = true
+    features = decorations
+    # hyperlinks = true
+
+[delta "interactive"]
+   side-by-side = true
+   file-style = cyan
+   hunk-header-style = syntax
+
+[delta "decorations"]
+    side-by-side = true
+    # syntax-theme = Visual Studio Dark+
+    syntax-theme = Monokai Extended
+
+    blame-palette = "#333333" "#222222" "#444444"
+    blame-format = "{timestamp:<15} {commit:<8}  {author:<15.14}"
+
+    file-style = blue bold
+    file-decoration-style = blue bold ul ol
+
+    hunk-header-style = file line-number syntax
+    hunk-header-decoration-style = grey box ul
+    hunk-header-file-style = yellow bold
+    hunk-header-line-number-style = green
+    
+    line-numbers-left-style = grey
+    line-numbers-right-style = grey

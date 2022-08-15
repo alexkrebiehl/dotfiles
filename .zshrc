@@ -13,19 +13,21 @@ CASE_SENSITIVE="true"
 antigen use oh-my-zsh
 ## Use some plugins
 antigen bundle fzf
-antigen bundle Aloxaf/fzf-tab
 antigen bundle git
 antigen bundle docker
-antigen bundle kubernetes
 antigen bundle brew
-antigen bundle kubernetes
 antigen bundle macunha1/zsh-terraform
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle Aloxaf/fzf-tab
 ## Load a custom Theme
 antigen theme romkatv/powerlevel10k
 
 # 3. Commit Antigen Configuration
 antigen apply
+
+# load auto-complete dependencies
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
 
 # 4. ZSH customizations
 ## Appends every command to the history file once it is executed
@@ -39,9 +41,25 @@ alias flushdnscache="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponde
 alias k="kubectl"
 alias kga="kubectl get all --output=wide"
 
-function f () {
-    fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
-}
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'eval ~/.fzf-dynamic-preview "${realpath}"'
+
+# give a preview of commandline arguments when completing `kill`
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps -p $word -o '%cpu=CPU,%mem=Memory,command=Command' -c'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+
+source <(kubectl completion zsh)
 
 local real_tf=$(which terraform)
 terraform () {

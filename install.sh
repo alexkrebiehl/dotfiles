@@ -1,19 +1,21 @@
 #!/bin/bash
 
 check_installed () {
-  if ! command -v $1 &> /dev/null
-  then
-      echo "$1 is not installed"
-      exit
-  fi
+    for app in "$@"
+    do
+        if ! command -v $app &> /dev/null
+        then
+            echo "$app is not installed"
+            INSTALL_CHECK_FAILED=true
+        fi
+    done
+
+    if [[ "$INSTALL_CHECK_FAILED" ]]; then
+        exit 1
+    fi
 }
 
-check_installed curl
-check_installed zsh
-check_installed tmux
-check_installed vim
-check_installed git
-check_installed fzf
+check_installed curl zsh tmux vim git fzf delta bat exa
 
 INPUT="$1"
 DEFAULT_INSTALL_DIR="$HOME"
@@ -46,6 +48,8 @@ ln -s "$DIR/.zshrc" "$INSTALL_DIR/.zshrc"
 mv "$INSTALL_DIR/.p10k.zsh" "$INSTALL_DIR/.p10k.zsh.bak"
 ln -s "$DIR/.p10k.zsh" "$INSTALL_DIR/.p10k.zsh"
 
+ln -s "$DIR/.fzf-dynamic-preview" "$INSTALL_DIR/.fzf-dynamic-preview"
+
 ########################
 # vim setup
 ########################
@@ -63,6 +67,12 @@ ln -s "$DIR/.tmux.conf" "$INSTALL_DIR/.tmux.conf"
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ~/.tmux/plugins/tpm/bin/install_plugins
+
+
+########################
+# git setup
+########################
+git config --global include.path "$DIR/.gitconfig"
 
 ########################
 # wrap up
