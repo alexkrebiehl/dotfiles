@@ -1,11 +1,21 @@
-#!/bin/sh
+#!/bin/bash
+
 # dynamically show different content depending on input type
+
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 mime=$(file -bL --mime-type "$1")
 category=${mime%%/*}
 kind=${mime##*/}
 if [ -d "$1" ]; then
-	exa --git -hl --color=always --icons "$1"
+    echo "${bold}$1${normal}"
+    if [ "exa -v | grep '\-git'" ]; then
+        # The ubuntu build of exa doesn't have the --git option
+	    exa -hl --color=always --icons "$1"
+    else
+	    exa --git -hl --color=always --icons "$1"
+    fi
 elif [ "$category" = image ]; then
 	chafa "$1"
 	exiftool "$1"

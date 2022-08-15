@@ -1,5 +1,37 @@
 #!/bin/bash
 
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+usage () {
+    echo 'Usage: ./install.sh [--install-packages] [destination]'
+    echo '`destination` defaults to $HOME if omitted'
+    exit
+}
+
+while test $# != 0
+do
+    case "$1" in
+    -h|--help) usage ;;
+    -i|--install-packages) option_install_packages=t ;;
+    --) shift; break;;
+    *)  usage ;;
+    esac
+    shift
+done
+
+
+install_dpkg_from_url () {
+    TEMP_DEB="$(mktemp)" &&
+    wget -O "$TEMP_DEB" "$1" && sudo dpkg -i "$TEMP_DEB"
+    install_status=$?
+    rm -f "$TEMP_DEB"
+    if [[ "$install_status" != "0" ]]; then
+        echo "Failed to install dpkg $1"
+        exit 1
+    fi
+}
+
 check_installed () {
     for app in "$@"
     do
@@ -10,12 +42,26 @@ check_installed () {
         fi
     done
 
+
     if [[ "$INSTALL_CHECK_FAILED" ]]; then
         exit 1
     fi
 }
 
-check_installed curl zsh tmux vim git fzf delta bat exa
+required_packages="curl zsh tmux vim git fzf delta bat exa"
+
+if [[ "$option_install_packages" ]]; then
+    if lsb_release -A | grep -i ubuntu; then
+        sudo apt update
+        install_dpkg_from_url "https://github.com/sharkdp/bat/releases/download/v0.21.0/bat_0.21.0_amd64.deb"
+        install_dpkg_from_url "https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb"
+        sudo apt-get install curl zsh tmux vim git fzf exa -y
+    else
+        brew install zsh tmux vim fzf git-delta bat exa
+    fi
+fi
+
+check_installed $required_packages
 
 INPUT="$1"
 DEFAULT_INSTALL_DIR="$HOME"
@@ -78,5 +124,5 @@ git config --global include.path "$DIR/.gitconfig"
 # wrap up
 ########################
 
-echo "Make sure you change your shell to zsh: chsh -s $(which zsh)"
-echo "Or if already using zsh, source ~/.zshrc"
+echo "${bold}Make sure you change your shell to zsh: chsh -s $(which zsh)${normal}"
+echo "${bold}Or if already using zsh, source ~/.zshrc${normal}"
