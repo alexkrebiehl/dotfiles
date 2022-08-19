@@ -3,6 +3,12 @@
 bold=$(tput bold)
 normal=$(tput sgr0)
 
+# don't run 'sudo' when we're already root
+SUDO=''
+if (( $EUID != 0 )); then
+    SUDO='sudo'
+fi
+
 usage () {
     echo 'Usage: ./install.sh [--install-packages] [destination]'
     echo '`destination` defaults to $HOME if omitted'
@@ -23,7 +29,7 @@ done
 
 install_dpkg_from_url () {
     TEMP_DEB="$(mktemp)" &&
-    wget -O "$TEMP_DEB" "$1" && sudo dpkg -i "$TEMP_DEB"
+    wget -O "$TEMP_DEB" "$1" && $SUDO dpkg -i "$TEMP_DEB"
     install_status=$?
     rm -f "$TEMP_DEB"
     if [[ "$install_status" != "0" ]]; then
@@ -48,14 +54,16 @@ check_installed () {
     fi
 }
 
-required_packages="curl zsh tmux vim git fzf delta bat exa"
+required_packages="curl wget zsh tmux vim git fzf delta bat exa"
 
 if [[ "$option_install_packages" ]]; then
     if lsb_release -a | grep -i ubuntu; then
-        sudo apt update
-        install_dpkg_from_url "https://github.com/sharkdp/bat/releases/download/v0.21.0/bat_0.21.0_amd64.deb"
-        install_dpkg_from_url "https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb"
-        sudo apt-get install curl zsh tmux vim git fzf exa -y
+        $SUDO apt update
+        $SUDO apt install wget curl -y
+        arch=$(dpkg --print-architecture)
+        install_dpkg_from_url "https://github.com/sharkdp/bat/releases/download/v0.21.0/bat_0.21.0_${arch}.deb"
+        install_dpkg_from_url "https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_${arch}.deb"
+        $SUDO apt-get install zsh tmux vim git fzf exa -y
     else
         brew install zsh tmux vim fzf git-delta bat exa
     fi
