@@ -51,7 +51,7 @@ check_installed () {
 required_packages="curl zsh tmux vim git fzf delta bat exa"
 
 if [[ "$option_install_packages" ]]; then
-    if lsb_release -A | grep -i ubuntu; then
+    if lsb_release -a | grep -i ubuntu; then
         sudo apt update
         install_dpkg_from_url "https://github.com/sharkdp/bat/releases/download/v0.21.0/bat_0.21.0_amd64.deb"
         install_dpkg_from_url "https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb"
