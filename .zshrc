@@ -37,6 +37,17 @@ setopt inc_append_history
 setopt share_history
 
 # 5. Aliases
+fancy_ls () {
+    input="$@"
+    dir="${input:=.}"
+    if [ "exa -v | grep '\-git'" ]; then
+        # The ubuntu build of exa doesn't have the --git option
+	    exa -hl --color=always --icons "$dir"
+    else
+	    exa --git -hl --color=always --icons "$dir"
+    fi
+}
+alias l="fancy_ls"
 alias ll="ls -alh"
 alias flushdnscache="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder;"
 alias k="kubectl"
