@@ -8,13 +8,14 @@ normal=$(tput sgr0)
 mime=$(file -bL --mime-type "$1")
 category=${mime%%/*}
 kind=${mime##*/}
-if [ -d "$1" ]; then
-    echo "${bold}$1${normal}"
+dir="$@"
+if [ -d "$dir" ]; then
+    echo "${bold}${dir}${normal}"
     if [ "exa -v | grep '\-git'" ]; then
         # The ubuntu build of exa doesn't have the --git option
-	    exa -hl --color=always --icons "$1"
+	    exa -hl --color=always --no-user --no-time --no-filesize --icons "$dir"
     else
-	    exa --git -hl --color=always --icons "$1"
+	    exa --git -hl --color=always --no-user --no-time --no-filesize --icons "$dir"
     fi
 elif [ "$category" = image ]; then
 	chafa "$1"
