@@ -50,6 +50,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
+# set min-height to make sure tehre's room for the preview window
+zstyle ':fzf-tab:complete:*:*' fzf-pad 10
+
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'eval ~/.fzf-dynamic-preview "${realpath}"'
 
 # give a preview of commandline arguments when completing `kill`
