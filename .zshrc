@@ -1,6 +1,7 @@
 export GOPATH=~/go
 export PATH=$HOME/bin:/usr/local/bin:$PATH:/Applications/MakeMKV.app/Contents/MacOS
 export PATH=~/.tfswitch/bin:~/.tfswitch-bin:$PATH
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Source Antigen
 source ~/.antigen.zsh
