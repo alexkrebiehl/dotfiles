@@ -1,1 +1,1 @@
-/home/alex/dotfiles/.vim
+/home/alex/projects/dotfiles/.vim

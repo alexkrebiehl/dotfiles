@@ -1,7 +1,14 @@
-export GOPATH=~/go
+export XDG_DATA_DIRS=$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:/home/alex/.local/share/flatpak/exports/share
 export PATH=$HOME/bin:/usr/local/bin:$PATH:/Applications/MakeMKV.app/Contents/MacOS
+
 export PATH=~/.tfswitch/bin:~/.tfswitch-bin:$PATH
+export PATH=~/.tfswitch-bin:$PATH
+
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# Golang settings
+export GOPATH=~/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 # Source Antigen
 source ~/.antigen.zsh
