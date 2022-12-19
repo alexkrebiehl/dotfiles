@@ -54,16 +54,23 @@ check_installed () {
     fi
 }
 
-required_packages="curl wget zsh tmux vim git fzf delta bat exa"
+required_packages="curl wget zsh tmux vim git fzf delta bat"
 
 if [[ "$option_install_packages" ]]; then
     if lsb_release -a | grep -i ubuntu; then
+        arch=$(dpkg --print-architecture)
         $SUDO apt update
         $SUDO apt install wget curl -y
-        arch=$(dpkg --print-architecture)
         install_dpkg_from_url "https://github.com/sharkdp/bat/releases/download/v0.21.0/bat_0.21.0_${arch}.deb"
         install_dpkg_from_url "https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_${arch}.deb"
-        $SUDO apt-get install zsh tmux vim git fzf exa -y
+
+	if [[ "${arch}" == "arm64" ]]; then
+	    # exa is not available for arm64
+	    # https://github.com/ogham/exa/issues/414
+            $SUDO apt-get install zsh tmux vim git fzf -y
+	else
+            $SUDO apt-get install zsh tmux vim git fzf exa -y
+	fi
     else
         brew install zsh tmux vim fzf git-delta bat exa
     fi
